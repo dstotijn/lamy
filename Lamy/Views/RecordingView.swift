@@ -7,8 +7,23 @@ struct RecordingView: View {
 
     var body: some View {
         VStack(spacing: 24) {
+            Spacer()
             statusView
             actionButton
+            Spacer()
+            Spacer()
+        }
+        .padding()
+    }
+
+    static var placeholder: some View {
+        VStack(spacing: 24) {
+            Spacer()
+            Label("Ready", systemImage: "mic")
+                .foregroundStyle(.secondary)
+                .redacted(reason: .placeholder)
+            Spacer()
+            Spacer()
         }
         .padding()
     }

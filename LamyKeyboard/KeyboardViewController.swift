@@ -8,6 +8,7 @@ class KeyboardViewController: UIInputViewController {
         config.cornerStyle = .capsule
         let button = UIButton(configuration: config)
         button.addTarget(self, action: #selector(micTapped), for: .touchUpInside)
+        button.accessibilityLabel = "Start recording"
         return button
     }()
 
@@ -19,6 +20,7 @@ class KeyboardViewController: UIInputViewController {
         let button = UIButton(configuration: config)
         button.addTarget(self, action: #selector(stopTapped), for: .touchUpInside)
         button.isHidden = true
+        button.accessibilityLabel = "Stop recording"
         return button
     }()
 
@@ -27,6 +29,7 @@ class KeyboardViewController: UIInputViewController {
         config.image = UIImage(systemName: "globe")
         let button = UIButton(configuration: config)
         button.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+        button.accessibilityLabel = "Next keyboard"
         return button
     }()
 
@@ -41,6 +44,7 @@ class KeyboardViewController: UIInputViewController {
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .medium)
         spinner.hidesWhenStopped = true
+        spinner.accessibilityLabel = "Transcribing"
         return spinner
     }()
 
@@ -115,6 +119,10 @@ class KeyboardViewController: UIInputViewController {
             DarwinNotificationCenter.shared.post(
                 LamyConstants.DarwinNotification.stateChanged
             )
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: "Transcription inserted"
+            )
         }
 
         updateUI()
@@ -132,11 +140,17 @@ class KeyboardViewController: UIInputViewController {
 
         switch currentState.status {
         case .idle: statusLabel.text = nil
-        case .recording: statusLabel.text = "Recording\u{2026}"
-        case .stopping, .uploading: statusLabel.text = "Transcribing\u{2026}"
+        case .recording:
+            statusLabel.text = "Recording\u{2026}"
+            UIAccessibility.post(notification: .announcement, argument: "Recording")
+        case .stopping, .uploading:
+            statusLabel.text = "Transcribing\u{2026}"
+            UIAccessibility.post(notification: .announcement, argument: "Transcribing")
         case .done: statusLabel.text = nil
         case .error:
-            statusLabel.text = currentState.errorMessage ?? "Error"
+            let message = currentState.errorMessage ?? "Error"
+            statusLabel.text = message
+            UIAccessibility.post(notification: .announcement, argument: message)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
                 self?.resetToIdle()
             }

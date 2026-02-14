@@ -6,6 +6,7 @@ struct LamyApp: App {
     @State private var settings = SettingsModel()
     @State private var manager: TranscriptionManager?
     @State private var showSettings = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
@@ -14,9 +15,10 @@ struct LamyApp: App {
                     if let manager {
                         RecordingView(manager: manager, settings: settings)
                     } else {
-                        ProgressView()
+                        RecordingView.placeholder
                     }
                 }
+                .navigationTitle("Lamy")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
@@ -34,6 +36,11 @@ struct LamyApp: App {
                 guard url.scheme == LamyConstants.urlScheme else { return }
                 if url.host == "record" {
                     manager?.startRecording()
+                }
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .background {
+                    manager?.handleBackgrounding()
                 }
             }
             .task {

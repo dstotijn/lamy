@@ -25,17 +25,16 @@ struct SettingsView: View {
     }
 
     private var modeSection: some View {
-        Section("Transcription Endpoint") {
-            Picker("Mode", selection: $settings.mode) {
+        Section("Transcription Provider") {
+            Picker("Provider", selection: $settings.mode) {
                 Text("OpenAI").tag(TranscriptionMode.openAI)
-                Text("Custom Endpoint").tag(TranscriptionMode.custom)
+                Text("Custom").tag(TranscriptionMode.custom)
             }
-            .pickerStyle(.segmented)
         }
     }
 
     private var openAISection: some View {
-        Section("OpenAI Configuration") {
+        Section {
             SecureField("API Key", text: $settings.openAIKey)
                 .textContentType(.password)
                 .autocorrectionDisabled()
@@ -45,11 +44,15 @@ struct SettingsView: View {
                     Text(model.displayName).tag(model)
                 }
             }
+        } header: {
+            Text("OpenAI")
+        } footer: {
+            Text("Get your API key at platform.openai.com. Audio is sent to OpenAI for transcription.")
         }
     }
 
     private var customSection: some View {
-        Section("Custom Endpoint") {
+        Section {
             TextField("URL", text: $settings.customURL)
                 .textContentType(.URL)
                 .autocorrectionDisabled()
@@ -57,6 +60,10 @@ struct SettingsView: View {
 
             SecureField("Authorization Header", text: $settings.customAuthHeader)
                 .autocorrectionDisabled()
+        } header: {
+            Text("Custom Endpoint")
+        } footer: {
+            Text("Send audio to your own server. The authorization header is sent as-is in the Authorization field.")
         }
     }
 }

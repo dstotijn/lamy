@@ -1,5 +1,6 @@
 import Foundation
 import Observation
+import UIKit
 import LamyShared
 
 @Observable @MainActor
@@ -25,6 +26,7 @@ final class TranscriptionManager {
             state.status = .recording
             state.timestamp = Date()
             syncToShared()
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         } catch {
             writeError("Failed to start recording: \(error.localizedDescription)")
         }
@@ -34,6 +36,7 @@ final class TranscriptionManager {
         state.status = .stopping
         state.timestamp = Date()
         syncToShared()
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
 
         Task {
             guard let audioURL = audioRecorder.stop() else {
@@ -59,6 +62,7 @@ final class TranscriptionManager {
         state.timestamp = Date()
         syncToShared()
         scheduleReset()
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
 
     func writeDone(transcription: String) {
@@ -67,6 +71,13 @@ final class TranscriptionManager {
         state.timestamp = Date()
         syncToShared()
         scheduleReset()
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+    }
+
+    func handleBackgrounding() {
+        // Ensure the keyboard has the latest state when the app moves to background.
+        // Recording continues via the audio background mode.
+        syncToShared()
     }
 
     private func uploadAndTranscribe(audioURL: URL) async {
