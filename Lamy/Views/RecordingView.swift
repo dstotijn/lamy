@@ -5,11 +5,20 @@ struct RecordingView: View {
     let manager: TranscriptionManager
     let settings: SettingsModel
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isPulsing = false
+
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             Spacer()
-            statusView
-            actionButton
+
+            statusText
+
+            micButton
+
+            unconfiguredHint
+                .frame(height: 40, alignment: .top)
+
             Spacer()
             Spacer()
         }
@@ -17,65 +26,143 @@ struct RecordingView: View {
     }
 
     static var placeholder: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             Spacer()
-            Label("Ready", systemImage: "mic")
+
+            Text("Ready")
                 .foregroundStyle(.secondary)
                 .redacted(reason: .placeholder)
+
+            Circle()
+                .fill(.tint)
+                .frame(width: 80, height: 80)
+                .overlay {
+                    Image(systemName: "mic.fill")
+                        .font(.system(size: 32))
+                        .foregroundStyle(.white)
+                }
+                .redacted(reason: .placeholder)
+
+            Spacer()
+                .frame(height: 40)
+
             Spacer()
             Spacer()
         }
         .padding()
     }
 
+    // MARK: - Status Text
+
     @ViewBuilder
-    private var statusView: some View {
+    private var statusText: some View {
         switch manager.state.status {
         case .idle:
-            Label("Ready", systemImage: "mic")
+            Text("Ready")
                 .foregroundStyle(.secondary)
         case .recording:
-            Label("Recording…", systemImage: "mic.fill")
+            Text("Recording\u{2026}")
                 .foregroundStyle(.red)
         case .stopping, .uploading:
-            ProgressView("Transcribing…")
+            Text("Transcribing\u{2026}")
+                .foregroundStyle(.secondary)
         case .done:
-            Label("Done", systemImage: "checkmark.circle.fill")
+            Text("Done")
                 .foregroundStyle(.green)
         case .error:
-            Label(
-                manager.state.errorMessage ?? "Error",
-                systemImage: "exclamationmark.triangle.fill"
-            )
-            .foregroundStyle(.red)
+            Text(manager.state.errorMessage ?? "Error")
+                .foregroundStyle(.red)
+                .font(.caption)
+                .multilineTextAlignment(.center)
         }
     }
 
+    // MARK: - Mic Button
+
     @ViewBuilder
-    private var actionButton: some View {
+    private var micButton: some View {
         switch manager.state.status {
         case .idle:
-            VStack(spacing: 8) {
-                Button("Start Recording") {
-                    manager.startRecording()
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(!settings.isConfigured)
+            Button {
+                manager.startRecording()
+            } label: {
+                micCircle(
+                    icon: "mic.fill",
+                    background: .tint,
+                    opacity: settings.isConfigured ? 1 : 0.4
+                )
+            }
+            .disabled(!settings.isConfigured)
+            .accessibilityLabel(
+                settings.isConfigured ? "Start recording" : "Start recording, disabled. Add API key in Settings."
+            )
 
-                if !settings.isConfigured {
-                    Text("Add your API key in Settings to get started.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-            }
         case .recording:
-            Button("Stop") {
+            Button {
                 manager.handleStopSignal()
+            } label: {
+                micCircle(icon: "stop.fill", background: .red)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.red)
-        default:
-            EmptyView()
+            .accessibilityLabel("Stop recording")
+            .background { pulseRing }
+            .onAppear { isPulsing = true }
+            .onDisappear { isPulsing = false }
+
+        case .stopping, .uploading:
+            ProgressView()
+                .controlSize(.large)
+                .frame(width: 80, height: 80)
+
+        case .done:
+            micCircle(icon: "checkmark", background: .green)
+
+        case .error:
+            micCircle(
+                icon: "exclamationmark.triangle.fill",
+                background: Color.red.opacity(0.15),
+                iconColor: .red
+            )
+        }
+    }
+
+    private func micCircle(
+        icon: String,
+        background: some ShapeStyle,
+        opacity: Double = 1,
+        iconColor: Color = .white
+    ) -> some View {
+        Circle()
+            .fill(AnyShapeStyle(background))
+            .frame(width: 80, height: 80)
+            .opacity(opacity)
+            .overlay {
+                Image(systemName: icon)
+                    .font(.system(size: 32))
+                    .foregroundStyle(iconColor)
+            }
+    }
+
+    private var pulseRing: some View {
+        Circle()
+            .stroke(.red.opacity(0.4), lineWidth: 3)
+            .frame(width: 80, height: 80)
+            .scaleEffect(isPulsing && !reduceMotion ? 1.4 : 1)
+            .opacity(isPulsing && !reduceMotion ? 0 : 0.4)
+            .animation(
+                reduceMotion ? nil : .easeInOut(duration: 1).repeatForever(autoreverses: true),
+                value: isPulsing
+            )
+    }
+
+    // MARK: - Unconfigured Hint
+
+    @ViewBuilder
+    private var unconfiguredHint: some View {
+        if manager.state.status == .idle && !settings.isConfigured {
+            Text("Add your API key in Settings to get started.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
     }
 }

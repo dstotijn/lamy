@@ -19,6 +19,7 @@ struct LamyApp: App {
                     }
                 }
                 .navigationTitle("Lamy")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
