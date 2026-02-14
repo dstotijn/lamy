@@ -29,5 +29,7 @@
     </array>
     <key>NSMicrophoneUsageDescription</key>
     <string>Lamy needs microphone access to record audio for transcription.</string>
+    <key>UILaunchScreen</key>
+    <dict/>
 </dict>
 </plist>
