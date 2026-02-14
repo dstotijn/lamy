@@ -5,10 +5,12 @@ import Testing
 @Suite("SettingsModel")
 @MainActor
 struct SettingsModelTests {
+    private static let testKeychain = KeychainHelper(service: "com.dstotijn.lamy.tests")
+
     @Test func defaultModeIsOpenAI() {
         let settings = SettingsModel(
             defaults: UserDefaults(suiteName: "test.settings")!,
-            keychain: KeychainHelper()
+            keychain: Self.testKeychain
         )
         #expect(settings.mode == .openAI)
     }
@@ -16,7 +18,7 @@ struct SettingsModelTests {
     @Test func openAIModelDefaultsToGPT4oTranscribe() {
         let settings = SettingsModel(
             defaults: UserDefaults(suiteName: "test.settings.model")!,
-            keychain: KeychainHelper()
+            keychain: Self.testKeychain
         )
         #expect(settings.openAIModel == .gpt4oTranscribe)
     }
@@ -26,7 +28,7 @@ struct SettingsModelTests {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        let settings = SettingsModel(defaults: defaults, keychain: KeychainHelper())
+        let settings = SettingsModel(defaults: defaults, keychain: Self.testKeychain)
         settings.mode = .custom
         #expect(defaults.string(forKey: "settings.mode") == "custom")
     }
@@ -34,7 +36,7 @@ struct SettingsModelTests {
     @Test func isConfiguredRequiresAPIKeyForOpenAI() {
         let suiteName = "test.settings.configured"
         let defaults = UserDefaults(suiteName: suiteName)!
-        let keychain = KeychainHelper()
+        let keychain = Self.testKeychain
         defer {
             defaults.removePersistentDomain(forName: suiteName)
             keychain.delete(key: "settings.openAIKey")
@@ -51,7 +53,7 @@ struct SettingsModelTests {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        let settings = SettingsModel(defaults: defaults, keychain: KeychainHelper())
+        let settings = SettingsModel(defaults: defaults, keychain: Self.testKeychain)
         settings.mode = .custom
         #expect(!settings.isConfigured)
 

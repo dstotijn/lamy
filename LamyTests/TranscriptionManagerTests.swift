@@ -5,8 +5,16 @@ import Foundation
 
 @Suite("TranscriptionManager", .serialized) @MainActor
 struct TranscriptionManagerTests {
+    private static let testKeychain = KeychainHelper(
+        service: "com.dstotijn.lamy.tests"
+    )
+
+    private static func testSettings() -> SettingsModel {
+        SettingsModel(keychain: testKeychain)
+    }
+
     @Test func initialStateIsIdle() {
-        let manager = TranscriptionManager(settings: SettingsModel())
+        let manager = TranscriptionManager(settings: Self.testSettings())
         #expect(manager.state.status == .idle)
     }
 
@@ -15,7 +23,10 @@ struct TranscriptionManagerTests {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        let manager = TranscriptionManager(sharedDefaults: defaults, settings: SettingsModel())
+        let manager = TranscriptionManager(
+            sharedDefaults: defaults,
+            settings: Self.testSettings()
+        )
         manager.state.status = .recording
         manager.handleStopSignal()
 
@@ -28,7 +39,10 @@ struct TranscriptionManagerTests {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        let manager = TranscriptionManager(sharedDefaults: defaults, settings: SettingsModel())
+        let manager = TranscriptionManager(
+            sharedDefaults: defaults,
+            settings: Self.testSettings()
+        )
         manager.writeError("Upload failed")
 
         #expect(manager.state.status == .error)
@@ -42,7 +56,10 @@ struct TranscriptionManagerTests {
         let defaults = UserDefaults(suiteName: suiteName)!
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
-        let manager = TranscriptionManager(sharedDefaults: defaults, settings: SettingsModel())
+        let manager = TranscriptionManager(
+            sharedDefaults: defaults,
+            settings: Self.testSettings()
+        )
         manager.writeDone(transcription: "Hello world")
 
         #expect(manager.state.status == .done)

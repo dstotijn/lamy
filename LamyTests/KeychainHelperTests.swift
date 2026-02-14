@@ -3,7 +3,7 @@ import Testing
 
 @Suite("KeychainHelper", .serialized)
 struct KeychainHelperTests {
-    let keychain = KeychainHelper()
+    let keychain = KeychainHelper(service: "com.dstotijn.lamy.tests")
     let testKey = "test.keychain.key"
 
     init() {
