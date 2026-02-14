@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.swift"
+      run: mise exec -- swiftlint lint --strict --quiet {staged_files}
+
+pre-push:
+  commands:
+    test:
+      run: xcodebuild -scheme Lamy -destination 'platform=iOS Simulator,name=iPhone 16' test -quiet
