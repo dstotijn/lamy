@@ -48,7 +48,7 @@ struct RecordingView: View {
                 .disabled(!settings.isConfigured)
 
                 if !settings.isConfigured {
-                    Text("Configure a transcription endpoint in Settings.")
+                    Text("Add your API key in Settings to get started.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
