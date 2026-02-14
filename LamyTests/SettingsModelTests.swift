@@ -34,9 +34,14 @@ struct SettingsModelTests {
     @Test func isConfiguredRequiresAPIKeyForOpenAI() {
         let suiteName = "test.settings.configured"
         let defaults = UserDefaults(suiteName: suiteName)!
-        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let keychain = KeychainHelper()
+        defer {
+            defaults.removePersistentDomain(forName: suiteName)
+            keychain.delete(key: "settings.openAIKey")
+        }
+        keychain.delete(key: "settings.openAIKey")
 
-        let settings = SettingsModel(defaults: defaults, keychain: KeychainHelper())
+        let settings = SettingsModel(defaults: defaults, keychain: keychain)
         settings.mode = .openAI
         #expect(!settings.isConfigured)
     }

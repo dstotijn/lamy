@@ -22,29 +22,35 @@ enum OpenAIModel: String, CaseIterable, Sendable {
 
 @Observable @MainActor
 final class SettingsModel {
+    private enum Key {
+        static let mode = "settings.mode"
+        static let openAIModel = "settings.openAIModel"
+        static let openAIKey = "settings.openAIKey"
+        static let customURL = "settings.customURL"
+        static let customAuthHeader = "settings.customAuthHeader"
+    }
+
     private let defaults: UserDefaults
     private let keychain: KeychainHelper
 
     var mode: TranscriptionMode {
-        didSet { defaults.set(mode.rawValue, forKey: "settings.mode") }
+        didSet { defaults.set(mode.rawValue, forKey: Key.mode) }
     }
 
     var openAIModel: OpenAIModel {
-        didSet { defaults.set(openAIModel.rawValue, forKey: "settings.openAIModel") }
+        didSet { defaults.set(openAIModel.rawValue, forKey: Key.openAIModel) }
     }
 
     var openAIKey: String {
-        get { keychain.load(key: "settings.openAIKey") ?? "" }
-        set { try? keychain.save(key: "settings.openAIKey", value: newValue) }
+        didSet { try? keychain.save(key: Key.openAIKey, value: openAIKey) }
     }
 
     var customURL: String {
-        didSet { defaults.set(customURL, forKey: "settings.customURL") }
+        didSet { defaults.set(customURL, forKey: Key.customURL) }
     }
 
     var customAuthHeader: String {
-        get { keychain.load(key: "settings.customAuthHeader") ?? "" }
-        set { try? keychain.save(key: "settings.customAuthHeader", value: newValue) }
+        didSet { try? keychain.save(key: Key.customAuthHeader, value: customAuthHeader) }
     }
 
     var transcriptionConfig: TranscriptionService.Config {
@@ -71,11 +77,13 @@ final class SettingsModel {
         self.defaults = defaults
         self.keychain = keychain
         self.mode = TranscriptionMode(
-            rawValue: defaults.string(forKey: "settings.mode") ?? ""
+            rawValue: defaults.string(forKey: Key.mode) ?? ""
         ) ?? .openAI
         self.openAIModel = OpenAIModel(
-            rawValue: defaults.string(forKey: "settings.openAIModel") ?? ""
+            rawValue: defaults.string(forKey: Key.openAIModel) ?? ""
         ) ?? .gpt4oTranscribe
-        self.customURL = defaults.string(forKey: "settings.customURL") ?? ""
+        self.customURL = defaults.string(forKey: Key.customURL) ?? ""
+        self.openAIKey = keychain.load(key: Key.openAIKey) ?? ""
+        self.customAuthHeader = keychain.load(key: Key.customAuthHeader) ?? ""
     }
 }
