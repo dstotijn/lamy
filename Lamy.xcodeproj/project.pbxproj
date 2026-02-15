@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,9 +19,9 @@
 		75980917CBA8293D0D0DFA50 /* LamyShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4769508F8A7F1FD9BE06A41F /* LamyShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C666C9073B395ACD94F26F3 /* TranscriptionStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5F91D9615BE13D4BB510EF /* TranscriptionStateTests.swift */; };
 		890961000B66E3C10948840A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 683E9BC361EF84BECC3C7167 /* SettingsView.swift */; };
-		A1B2C3D4E5F6A7B8C9D0E1F2 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2D3C4B5A6978869504132 /* RecordingView.swift */; };
 		8F19A08D5810255482A50BC0 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AB5D8D3586E9945978CCDD /* KeychainHelper.swift */; };
 		92B4400DFDAC902760BB7A16 /* TranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131B9210D924462BBE6869BF /* TranscriptionService.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2D3C4B5A6978869504132 /* RecordingView.swift */; };
 		AB881887E27DBC9A52C04042 /* TranscriptionServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0576B5CAAC0593A2D5A4BA2 /* TranscriptionServiceTests.swift */; };
 		B4C4B9A6B59A21FA74A35727 /* SettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95BCEA95DF64D310302252 /* SettingsModelTests.swift */; };
 		B59634E15D0E90894E56B249 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3677EB78C0FD83EB7231F4D5 /* KeyboardViewController.swift */; };
@@ -119,21 +119,21 @@
 		3E1400E0F86315E01050EFA2 /* LamyKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LamyKeyboard.entitlements; sourceTree = "<group>"; };
 		4769508F8A7F1FD9BE06A41F /* LamyShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LamyShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5801E628CAC8882DB0B5DFF8 /* LamyShared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LamyShared.swift; sourceTree = "<group>"; };
-		5D831BE10551599C2080F050 /* LamyKeyboard.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LamyKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D831BE10551599C2080F050 /* LamyKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LamyKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		663D36D569765D568E826441 /* TranscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionManager.swift; sourceTree = "<group>"; };
 		683E9BC361EF84BECC3C7167 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		F1E2D3C4B5A6978869504132 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		68633AF2F7190FE99301EEBA /* TranscriptionManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionManagerTests.swift; sourceTree = "<group>"; };
 		6F4718FC650DF7C7FA1D25F4 /* LamyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LamyApp.swift; sourceTree = "<group>"; };
 		76D5F2CB343FF5D305CFEE30 /* TranscriptionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionState.swift; sourceTree = "<group>"; };
 		7B5F91D9615BE13D4BB510EF /* TranscriptionStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStateTests.swift; sourceTree = "<group>"; };
-		849DB6E2D9E65B5357C1DDBB /* Lamy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Lamy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		849DB6E2D9E65B5357C1DDBB /* Lamy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lamy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C95BCEA95DF64D310302252 /* SettingsModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModelTests.swift; sourceTree = "<group>"; };
 		A61FA7A52AC1C3F43765402D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AD86A347D220E1040514ED11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C64ADBFC261DC5C6E5C39BF4 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C7B148BFD632FE16EE83A144 /* DarwinNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarwinNotificationCenter.swift; sourceTree = "<group>"; };
 		E0576B5CAAC0593A2D5A4BA2 /* TranscriptionServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionServiceTests.swift; sourceTree = "<group>"; };
+		F1E2D3C4B5A6978869504132 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		F98A2653C54D1478C0DED8CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FAE47FA35B0436D6BA94BA85 /* LamyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LamyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -365,7 +365,6 @@
 			);
 			mainGroup = 0935125452FFBE2830E6D6C0;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -525,6 +524,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Lamy/Lamy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = J292F267NL;
 				INFOPLIST_FILE = Lamy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -542,6 +542,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Lamy/Lamy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = J292F267NL;
 				INFOPLIST_FILE = Lamy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -557,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LamyKeyboard/LamyKeyboard.entitlements;
+				DEVELOPMENT_TEAM = J292F267NL;
 				INFOPLIST_FILE = LamyKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -572,9 +574,11 @@
 		53669AB843328F6633E3BDDA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = J292F267NL;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = J292F267NL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -612,9 +616,11 @@
 		6EDB01954852164FACC80E10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = J292F267NL;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = J292F267NL;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -692,6 +698,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = LamyKeyboard/LamyKeyboard.entitlements;
+				DEVELOPMENT_TEAM = J292F267NL;
 				INFOPLIST_FILE = LamyKeyboard/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

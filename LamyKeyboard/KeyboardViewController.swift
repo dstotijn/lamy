@@ -211,14 +211,20 @@ class KeyboardViewController: UIInputViewController {
 
     private func openMainApp() {
         guard let url = URL(string: "\(LamyConstants.urlScheme)://record") else { return }
-        var responder: UIResponder? = self
-        while let next = responder?.next {
-            if let application = next as? UIApplication {
-                application.open(url, options: [:], completionHandler: nil)
-                return
-            }
-            responder = next
-        }
+
+        guard let cls = NSClassFromString("UIApplication") as? NSObject.Type,
+              let app = cls.perform(NSSelectorFromString("sharedApplication"))?
+                  .takeUnretainedValue() as AnyObject? else { return }
+
+        let selector = NSSelectorFromString("openURL:options:completionHandler:")
+        guard app.responds(to: selector) else { return }
+
+        typealias OpenURLFunc = @convention(c) (
+            AnyObject, Selector, URL, NSDictionary, ((Bool) -> Void)?
+        ) -> Void
+        let imp = app.method(for: selector)
+        let open = unsafeBitCast(imp, to: OpenURLFunc.self)
+        open(app, selector, url, [:] as NSDictionary, nil)
     }
 
     private func resetToIdle() {
